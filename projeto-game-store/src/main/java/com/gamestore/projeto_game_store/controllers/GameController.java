@@ -1,6 +1,6 @@
 package com.gamestore.projeto_game_store.controllers;
 
-import com.gamestore.projeto_game_store.dtos.GameRecordDto;
+import com.gamestore.projeto_game_store.dtos.GameRequestDto;
 import com.gamestore.projeto_game_store.models.GameModel;
 import com.gamestore.projeto_game_store.services.GameService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class GameController {
     private final GameService gameService;
 
     @PostMapping("/criar")
-    public ResponseEntity<GameModel> criar(@RequestBody GameRecordDto game){
+    public ResponseEntity<GameModel> criar(@RequestBody GameRequestDto game){
         GameModel criar = gameService.criar(game);
         return ResponseEntity.ok().body(criar);
     }

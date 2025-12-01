@@ -1,17 +1,19 @@
 package com.gamestore.projeto_game_store.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+@Builder
 @Entity
 @Table(name = "tb_game")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class GameModel {
 
     @Id

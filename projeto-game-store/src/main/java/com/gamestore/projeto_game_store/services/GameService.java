@@ -1,13 +1,12 @@
 package com.gamestore.projeto_game_store.services;
 
-import com.gamestore.projeto_game_store.dtos.GameRecordDto;
+import com.gamestore.projeto_game_store.dtos.GameRequestDto;
 import com.gamestore.projeto_game_store.models.GameModel;
 import com.gamestore.projeto_game_store.models.PlataformaModel;
 import com.gamestore.projeto_game_store.models.ReviewModel;
 import com.gamestore.projeto_game_store.models.StudioModel;
 import com.gamestore.projeto_game_store.repositories.GameRepository;
 import com.gamestore.projeto_game_store.repositories.PlataformaRepository;
-import com.gamestore.projeto_game_store.repositories.ReviewRepository;
 import com.gamestore.projeto_game_store.repositories.StudioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,32 +27,26 @@ public class GameService {
 
 
     @Transactional
-    public GameModel criar(GameRecordDto gameRecordDto){
-
-
-
-
-
-
+    public GameModel criar(GameRequestDto gameRequestDto){
 
         GameModel game = new GameModel();
 
-        game.setTitulo(gameRecordDto.titulo());
+        game.setTitulo(gameRequestDto.titulo());
 
-        UUID uuiStudio = gameRecordDto.studioId();
+        UUID uuiStudio = gameRequestDto.studioId();
         StudioModel studioModel = studioRepository.findById(uuiStudio).get();
         game.setStudio(studioModel);
 
-        Set<UUID> plataformasIds = gameRecordDto.plataformasIds();
+        Set<UUID> plataformasIds = gameRequestDto.plataformasIds();
         Set<PlataformaModel> listaIdsPlataformas = plataformaRepository.findAllById(plataformasIds).stream()
                 .collect(Collectors.toSet());
         game.setPlataformas(listaIdsPlataformas);
 
 
         ReviewModel reviewModel = new ReviewModel();
-        reviewModel.setComentario(gameRecordDto.reviewComentario());
+        reviewModel.setComentario(gameRequestDto.reviewComentario());
         reviewModel.setGame(game);
-        reviewModel.setNota(gameRecordDto.reviewNota());
+        reviewModel.setNota(gameRequestDto.reviewNota());
 
         game.setReview(reviewModel);
 

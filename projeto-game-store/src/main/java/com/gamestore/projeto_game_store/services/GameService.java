@@ -29,6 +29,8 @@ public class GameService {
     private final PlataformaRepository plataformaRepository;
     private final StudioRepository studioRepository;
 
+    private final StudioService studioService;
+
 
     @Transactional
     public GameResponse criar(GameRequest gameRequestDto){
@@ -81,6 +83,43 @@ public class GameService {
         return todosGames.stream()
                 .map(GameMapper::paraResponse).toList();
     }
+
+    public GameResponse atualizarGame(UUID id, GameRequest gameRequest) {
+
+
+        GameModel gameEncontrado = gameRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Game não encontrado"));
+
+
+        gameEncontrado.setTitulo(gameRequest.titulo());
+
+
+
+        StudioModel studio = studioRepository.findById(gameRequest.studioId())
+                .orElseThrow(() -> new RuntimeException("Studio não encontrado"));
+        gameEncontrado.setStudio(studio);
+
+
+        Set<PlataformaModel> plataformas = plataformaRepository.findAllById(gameRequest.plataformasIds())
+                .stream()
+                .collect(Collectors.toSet());
+        gameEncontrado.setPlataformas(plataformas);
+
+        ReviewModel review = gameEncontrado.getReview();
+        if (review == null) {
+            review = new ReviewModel();
+            review.setGame(gameEncontrado); // importante no OneToOne
+        }
+
+        review.setComentario(gameRequest.reviewComentario());
+        review.setNota(gameRequest.reviewNota());
+        gameEncontrado.setReview(review);
+
+        GameModel atualizado = gameRepository.save(gameEncontrado);
+
+        return GameMapper.paraResponse(atualizado);
+    }
+
 
     public void deletar(UUID id) {
         GameModel game = gameRepository.findById(id)

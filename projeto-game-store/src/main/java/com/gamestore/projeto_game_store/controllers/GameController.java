@@ -46,8 +46,16 @@ public class GameController {
         return ResponseEntity.ok(gameResponse);
     }
 
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<GameResponse> atualizarGame(@PathVariable UUID id, @RequestBody GameRequest gameRequest){
+        GameResponse gameResponse = gameService.atualizarGame(id, gameRequest);
+
+        return ResponseEntity.ok(gameResponse);
+
+    }
+
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Void> deletar(UUID id){
+    public ResponseEntity<Void> deletar(@PathVariable UUID id){
         gameService.deletar(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

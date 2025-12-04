@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,7 +27,7 @@ public class GameService {
     private final GameRepository gameRepository;
     private final PlataformaRepository plataformaRepository;
     private final StudioRepository studioRepository;
-    
+
     @Transactional
     public GameResponse criar(GameRequest gameRequestDto){
 
@@ -85,14 +84,10 @@ public class GameService {
     @Transactional
     public GameResponse atualizarGame(UUID id, GameRequest gameRequest) {
 
-
         GameModel gameEncontrado = gameRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Game não encontrado"));
 
-
         gameEncontrado.setTitulo(gameRequest.titulo());
-
-
 
         StudioModel studio = studioRepository.findById(gameRequest.studioId())
                 .orElseThrow(() -> new RuntimeException("Studio não encontrado"));

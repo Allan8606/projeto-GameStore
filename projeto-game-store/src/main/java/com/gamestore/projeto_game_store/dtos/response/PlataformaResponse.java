@@ -7,5 +7,4 @@ import java.util.Set;
 import java.util.UUID;
 
 @Builder
-public record PlataformaResponse(UUID id, String plataforma, Set<String> games) {
-}
+public record PlataformaResponse(UUID id, String plataforma, Set<String> games) { }

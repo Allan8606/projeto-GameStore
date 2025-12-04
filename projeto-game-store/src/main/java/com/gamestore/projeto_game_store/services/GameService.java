@@ -28,10 +28,7 @@ public class GameService {
     private final GameRepository gameRepository;
     private final PlataformaRepository plataformaRepository;
     private final StudioRepository studioRepository;
-
-    private final StudioService studioService;
-
-
+    
     @Transactional
     public GameResponse criar(GameRequest gameRequestDto){
 
@@ -39,8 +36,9 @@ public class GameService {
 
         game.setTitulo(gameRequestDto.titulo());
 
-        UUID uuiStudio = gameRequestDto.studioId();
-        StudioModel studioModel = studioRepository.findById(uuiStudio).get();
+        StudioModel studioModel = studioRepository.findById(gameRequestDto.studioId())
+                .orElseThrow(() -> new RuntimeException("Studio não encontrado"));
+
         game.setStudio(studioModel);
 
         Set<UUID> plataformasIds = gameRequestDto.plataformasIds();
@@ -84,6 +82,7 @@ public class GameService {
                 .map(GameMapper::paraResponse).toList();
     }
 
+    @Transactional
     public GameResponse atualizarGame(UUID id, GameRequest gameRequest) {
 
 
@@ -121,6 +120,7 @@ public class GameService {
     }
 
 
+    @Transactional
     public void deletar(UUID id) {
         GameModel game = gameRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Game não encontrado"));

@@ -2,8 +2,7 @@ package com.gamestore.projeto_game_store.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +12,9 @@ import java.util.UUID;
 @Table(name = "tb_plataforma")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PlataformaModel {
 
     @Id
@@ -24,6 +26,7 @@ public class PlataformaModel {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(mappedBy = "plataformas", fetch = FetchType.LAZY)
+    @Builder.Default //Não permite que a lista nunca seja vazia
     private Set<GameModel> games = new HashSet<>();
 
 

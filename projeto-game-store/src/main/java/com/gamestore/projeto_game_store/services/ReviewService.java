@@ -22,8 +22,10 @@ public class ReviewService {
 
 
     public List<ReviewResponse> listarTodos(){
-        List<ReviewResponse> list = reviewRepository.findAll().stream()
-                .map(ReviewMapper::paraReviewResponse).toList();
+        List<ReviewResponse> list = reviewRepository.findAll()
+                .stream()
+                .map(ReviewMapper::paraReviewResponse)
+                .toList();
 
         return list;
     }
